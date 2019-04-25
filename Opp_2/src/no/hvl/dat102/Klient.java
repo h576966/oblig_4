@@ -1,4 +1,5 @@
 package no.hvl.dat102;
+import java.util.*;
 
 public class Klient {
 
@@ -6,6 +7,8 @@ public class Klient {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		Random terning = new Random();
+		int tall = terning.nextInt();
 		KjedetBSTre bstre = new KjedetBSTre();
 
 		bstre.leggTil(7);
