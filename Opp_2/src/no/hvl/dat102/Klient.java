@@ -21,12 +21,6 @@ public class Klient {
 	}
 
 	public static void main(String[] args) {
-<<<<<<< HEAD
-
-=======
-		Random terning = new Random();
-		int tall = terning.nextInt();
->>>>>>> branch 'master' of https://github.com/h576966/oblig_4.git
 		KjedetBSTre bstre = new KjedetBSTre();
 
 		bstre.leggTil(7);
