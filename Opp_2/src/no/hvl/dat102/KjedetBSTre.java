@@ -1,28 +1,30 @@
 package no.hvl.dat102;
 
+import java.util.Iterator;
+
 //********************************************************************
 // KjedetBinærSøkeTre.java        
 //
 //********************************************************************
 
-public class KjedetBSTre<T extends Comparable<T>> implements BSTreADT<T> {
+public class KjedetBSTre<T extends Comparable<T>> implements BSTreADT<T>, Iterable<T> {
 
 	private int antall;
-	private BinaerTreNode<T> rot;
+	private BinaerTreNode<T> root;
 
 	/******************************************************************
 	 * Oppretter et tomt binært søketre.
 	 ******************************************************************/
 	public KjedetBSTre() {
 		antall = 0;
-		rot = null;
+		root = null;
 	}
 
 	/******************************************************************
 	 * Oppretter et binært søketre med en node..
 	 ******************************************************************/
 	public KjedetBSTre(T element) {
-		rot = new BinaerTreNode<T>(element);
+		root = new BinaerTreNode<T>(element);
 		antall = 1;
 	}
 
@@ -45,7 +47,7 @@ public class KjedetBSTre<T extends Comparable<T>> implements BSTreADT<T> {
 	 * elementer blir lagt til høyre. Bruk av rekursiv hjelpemetode.
 	 ********************************************************************/
 	public void leggTil(T element) {
-		rot = leggTilRek(rot, element);
+		root = leggTilRek(root, element);
 		antall++;
 	}
 
@@ -120,15 +122,59 @@ public class KjedetBSTre<T extends Comparable<T>> implements BSTreADT<T> {
 	}
 
 	public void visInorden() {
-		visInorden(rot);
+		visInordenRec(root);
 		System.out.println();
 	}
 
-	private void visInorden(BinaerTreNode<T> p) {
+	private void visInordenRec(BinaerTreNode<T> p) {
 		if (p != null) {
-			visInorden(p.getVenstre());
+			visInordenRec(p.getVenstre());
 			System.out.print(" " + p.getElement());
-			visInorden(p.getHoyre());
+			visInordenRec(p.getHoyre());
 		}  // else bass: gjer ingenting
+	}
+	
+	private int heightRec(BinaerTreNode<T> node, int hoyde) {
+		if ((node.getVenstre() == null) && (node.getHoyre() == null))  {
+			return hoyde;
+		} 
+		int hoydeVenstre = 0;
+		int hoydeHoyre = 0;
+		if (node.getVenstre() != null) {
+			hoydeVenstre = heightRec(node.getVenstre(), hoyde + 1);
+		}	
+		if (node.getHoyre() != null) {
+			hoydeHoyre = heightRec(node.getHoyre(), hoyde + 1);
+		}
+		if (hoydeVenstre >= hoydeHoyre) {
+			return hoydeVenstre;
+		} else {
+			return hoydeHoyre;
+		}
+	}
+
+	public int getHeight() {
+		int hoyde = -1;
+		if (erTom()) {
+			return hoyde;
+		}
+		
+		BinaerTreNode<T> iter = root;
+		hoyde = heightRec(iter, hoyde+1);
+		
+		return hoyde;
+	}
+	
+	/*private Iterator<T> iteratorRec(BinaerTreNode<T> node) {
+		Iterable<T> denne = new Iterable<T>(node.getElement());
+		if (node.getVenstre() != null) {
+			iteratorRec(node.getVenstre())
+		}
+		return null;
+	}*/
+
+	@Override
+	public Iterator<T> iterator() {
+		return null; //iteratorRec(root);
 	}
 }// class
