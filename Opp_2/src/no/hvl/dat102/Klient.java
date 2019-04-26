@@ -8,7 +8,7 @@ public class Klient {
 	static final int TOTTREES = 100;
 	static int minHoyde = TOTANTALL + 1;
 	static int maksHoyde = 0;
-	static int[] hoydeArray = new int[TOTANTALL];
+	static int[] hoydeArray = new int[TOTTREES];
 
 	/**
 	 * @param args
@@ -47,7 +47,9 @@ public class Klient {
 		int totHoyde = 0;
 		for (int i = 0; i < hoydeArray.length; i++) {
 			totHoyde += hoydeArray[i];
+			//System.out.println("Current hoyde" + hoydeArray[i]);
 		}
+		//System.out.println("Tothoyde: " + totHoyde + "\nArraylength: " + hoydeArray.length);
 		return (int) Math.ceil((double) totHoyde/hoydeArray.length);
 	}
 
@@ -59,7 +61,7 @@ public class Klient {
 			runBSTre(i);			
 		}
 		System.out.println("Teoretisk minimum hoyde: " + minTeoHoyde(TOTANTALL)
-		+ "\nTeoretisk maks hoyde: " + TOTANTALL
+		+ "\nTeoretisk maks hoyde: " + (TOTANTALL-1)
 		+ "\nMinste hoyde funnet: " + minHoyde
 		+ "\nStorste hoyde funnet: " + maksHoyde
 		+ "\nGjennomsnittlig hoyde funnet: " + gjennSnittHoyde());

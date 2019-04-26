@@ -44,7 +44,7 @@ public class KjedetBSTre<T extends Comparable<T>> implements BSTreADT<T>, Iterab
 
 	/**********************************************************************
 	 * Legger det spesifiserte elementet på passende plass i BS-treet. Like
-	 * elementer blir lagt til høyre. Bruk av rekursiv hjelpemetode.
+	 * elementer blir lagt til VENSTRE. Bruk av rekursiv hjelpemetode.
 	 ********************************************************************/
 	public void leggTil(T element) {
 		root = leggTilRek(root, element);
@@ -52,13 +52,30 @@ public class KjedetBSTre<T extends Comparable<T>> implements BSTreADT<T>, Iterab
 	}
 
 	private BinaerTreNode<T> leggTilRek(BinaerTreNode<T> p, T element) {
-		// TODO Blir skriven i forelesing
-		return null;
+		if (root == null) {
+			return new BinaerTreNode<T>(element);
+		} else if (p.getElement().compareTo(element) <= 0) {
+			if (p.getVenstre() == null) {
+				BinaerTreNode<T> ny = new BinaerTreNode<T>(element);
+				p.setVenstre(ny);
+			} else {
+				leggTilRek(p.getVenstre(), element);
+			}
+		} else {
+			if (p.getHoyre() == null) {
+				BinaerTreNode<T> ny = new BinaerTreNode<T>(element);
+				p.setHoyre(ny);
+				return p;
+			} else {
+				leggTilRek(p.getHoyre(), element);
+			}
+		}
+		return p;
 	}
 
 	/******************************************************************
-	 * Legger det spesifiserte elementet på passende plass i dette binære søketreet.
-	 * Like elementer blir lagt til høyre.
+	 * Legger det spesifiserte elementet på passende plass i dette binære
+	 * søketreet. Like elementer blir lagt til høyre.
 	 ******************************************************************/
 
 	public void leggTil2(T element) {
@@ -109,7 +126,7 @@ public class KjedetBSTre<T extends Comparable<T>> implements BSTreADT<T>, Iterab
 	}
 
 	// Den rekursive hjelpemetoden for søking
-	
+
 	// TODO Blir skriven i forelesing
 
 	/************************************************************************
@@ -131,18 +148,18 @@ public class KjedetBSTre<T extends Comparable<T>> implements BSTreADT<T>, Iterab
 			visInordenRec(p.getVenstre());
 			System.out.print(" " + p.getElement());
 			visInordenRec(p.getHoyre());
-		}  // else bass: gjer ingenting
+		} // else bass: gjer ingenting
 	}
-	
+
 	private int heightRec(BinaerTreNode<T> node, int hoyde) {
-		if ((node.getVenstre() == null) && (node.getHoyre() == null))  {
+		if ((node.getVenstre() == null) && (node.getHoyre() == null)) {
 			return hoyde;
-		} 
+		}
 		int hoydeVenstre = 0;
 		int hoydeHoyre = 0;
 		if (node.getVenstre() != null) {
 			hoydeVenstre = heightRec(node.getVenstre(), hoyde + 1);
-		}	
+		}
 		if (node.getHoyre() != null) {
 			hoydeHoyre = heightRec(node.getHoyre(), hoyde + 1);
 		}
@@ -158,23 +175,21 @@ public class KjedetBSTre<T extends Comparable<T>> implements BSTreADT<T>, Iterab
 		if (erTom()) {
 			return hoyde;
 		}
-		
+
 		BinaerTreNode<T> iter = root;
-		hoyde = heightRec(iter, hoyde+1);
-		
+		hoyde = heightRec(iter, hoyde + 1);
+
 		return hoyde;
 	}
-	
-	/*private Iterator<T> iteratorRec(BinaerTreNode<T> node) {
-		Iterable<T> denne = new Iterable<T>(node.getElement());
-		if (node.getVenstre() != null) {
-			iteratorRec(node.getVenstre())
-		}
-		return null;
-	}*/
+
+	/*
+	 * private Iterator<T> iteratorRec(BinaerTreNode<T> node) { Iterable<T> denne =
+	 * new Iterable<T>(node.getElement()); if (node.getVenstre() != null) {
+	 * iteratorRec(node.getVenstre()) } return null; }
+	 */
 
 	@Override
 	public Iterator<T> iterator() {
-		return null; //iteratorRec(root);
+		return null; // iteratorRec(root);
 	}
 }// class
